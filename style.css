@@ -1,94 +1,139 @@
 body {
-    background-color: rgb(251, 232, 208);
+    background-color: #fbe8d0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 30px;
+    color: #4a3f35;
 }
 
 h1, h3 {
-    font-family: Bradley Hand, cursive;
+    font-family: 'Bradley Hand', cursive, sans-serif;
 }
 
 h1 {
     font-size: 3rem;
-    margin-bottom: 0px;
-}
-
-h5, p {
-    font-family: Courier New, monospace;
-}
-
-h5 {
-    font-weight: 100;
+    margin: 0 0 5px 0;
 }
 
 p {
-    margin: 0px 0px 0px 20px;
-    padding: 0;
+    font-family: 'Courier New', monospace;
+    margin: 0 0 25px 0;
+    color: #6e5e52;
 }
 
+h3 {
+    margin: 0 0 5px 0;
+}
+
+h5 {
+    font-family: 'Courier New', monospace;
+    font-weight: 100;
+    margin: 0 0 15px 0;
+    color: #8c786a;
+}
+
+/* Task Creation Form */
+.task-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.task-controls input {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    border: 2px solid #c3ad99;
+    border-radius: 10px;
+    outline: none;
+    background-color: #fff8f0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 280px;
+}
+
+.task-controls input:focus {
+    border-color: #a88f79;
+    box-shadow: 0 0 0 3px rgba(195, 173, 153, 0.3);
+}
+
+.task-controls button {
+    padding: 12px 24px;
+    background-color: #c3ad99;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.task-controls button:hover {
+    background-color: #af9782;
+}
+
+.task-controls button:active {
+    transform: scale(0.98);
+}
+
+/* Board Layout */
 #container {
     display: flex;
+    gap: 20px;
+    align-items: flex-start;
 }
 
 .board {
-    margin: 20px;
-    padding: 5px 200px 500px 20px;
-    border: 3px solid rgb(195, 173, 153);
-    background-color: rgb(249, 235, 218);
-    border-radius: 30px;
+    flex: 1;
+    min-width: 250px;
+    min-height: 400px;
+    padding: 20px;
+    border: 3px solid #c3ad99;
+    background-color: #f9ebda;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
+/* Task Cards */
 .task {
-    padding: 10px 15px;
-    margin-bottom: 10px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
     background-color: #f3eab0;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: grab;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s, box-shadow 0.15s;
+    word-break: break-word;
+}
+
+.task:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .task:active {
     cursor: grabbing;
+    transform: scale(0.98);
 }
 
-.task-controls {
-    margin: 20px;
-    display: flex;
-    gap: 10px;
-}
-
-.task-controls input {
-    padding: 10px;
-    font-size: 1rem;
-    border: 2px solid rgb(195, 173, 153);
-    border-radius: 8px;
-    outline: none;
-}
-
-.task-controls button {
-    padding: 10px 20px;
-    background-color: rgb(195, 173, 153);
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.task-controls button:hover {
-    background-color: rgb(175, 153, 133);
-}
-
+/* Delete Button */
 .delete-btn {
     background: transparent;
     border: none;
     color: #a04040;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     cursor: pointer;
-    padding: 0.5px;
-    line-height: ;
+    padding: 0 4px;
+    line-height: 1;
+    border-radius: 4px;
+    margin-left: 10px;
+    transition: color 0.15s, background-color 0.15s;
 }
 
 .delete-btn:hover {
-    color: #ff0000;
+    color: #d93838;
+    background-color: rgba(160, 64, 64, 0.1);
 }
