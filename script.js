@@ -33,6 +33,7 @@ function createTask() {
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-btn";
     deleteBtn.innerText = "×";
+    deleteBtn.setAttribute("data-tooltip", "delete task")
     deleteBtn.onclick = function(event) {
         event.stopPropagation(); 
         newTask.remove();

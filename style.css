@@ -118,7 +118,6 @@ h5 {
     transform: scale(0.98);
 }
 
-/* Delete Button */
 .delete-btn {
     background: transparent;
     border: none;
@@ -131,9 +130,34 @@ h5 {
     border-radius: 4px;
     margin-left: 10px;
     transition: color 0.15s, background-color 0.15s;
+    position: relative;
 }
 
 .delete-btn:hover {
     color: #d93838;
     background-color: rgba(160, 64, 64, 0.1);
+}
+
+.delete-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    right: 50%;
+    transform: translateX(50%);
+    background-color: #4a3f35;
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: normal;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.delete-btn:hover::after {
+    opacity: 1;
+    transform: translateX(50%) translateY(-2px);
 }
