@@ -36,3 +36,15 @@ p {
     background-color: rgb(249, 235, 218);
     border-radius: 30px;
 }
+
+.task {
+    padding: 15px;
+    background-color: #f3eab0;
+    text-align: center;
+    border-radius: 4px;
+    cursor: grab;
+}
+
+.task:active {
+    cursor: grabbing;
+}
