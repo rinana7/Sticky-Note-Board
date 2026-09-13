@@ -2,7 +2,7 @@ body {
     background-color: rgb(251, 232, 208);
 }
 
-h1, h3{
+h1, h3 {
     font-family: Bradley Hand, cursive;
 }
 
@@ -22,10 +22,9 @@ h5 {
 p {
     margin: 0px 0px 0px 20px;
     padding: 0;
-
 }
 
-#container{
+#container {
     display: flex;
 }
 
@@ -35,6 +34,19 @@ p {
     border: 3px solid rgb(195, 173, 153);
     background-color: rgb(249, 235, 218);
     border-radius: 30px;
+}
+
+.task {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f3eab0;
+    text-align: center;
+    border-radius: 4px;
+    cursor: grab;
+}
+
+.task:active {
+    cursor: grabbing;
 }
 
 .task-controls {
