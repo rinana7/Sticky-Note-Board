@@ -24,9 +24,20 @@ function createTask() {
     newTask.className = "task";
     newTask.id = "task-" + taskIdCounter++;
     newTask.draggable = true;
-    newTask.innerText = taskText;
-
     newTask.ondragstart = drag;
+
+    const textSpan = document.createElement("span");
+    textSpan.innerText = taskText;
+    newTask.appendChild(textSpan);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-btn";
+    deleteBtn.innerText = "×";
+    deleteBtn.onclick = function(event) {
+        event.stopPropagation(); 
+        newTask.remove();
+    };
+    newTask.appendChild(deleteBtn);
 
     const todoBoard = document.querySelector(".board");
     todoBoard.appendChild(newTask);

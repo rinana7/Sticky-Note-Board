@@ -37,12 +37,14 @@ p {
 }
 
 .task {
-    padding: 15px;
+    padding: 10px 15px;
     margin-bottom: 10px;
     background-color: #f3eab0;
-    text-align: center;
     border-radius: 4px;
     cursor: grab;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .task:active {
@@ -74,4 +76,19 @@ p {
 
 .task-controls button:hover {
     background-color: rgb(175, 153, 133);
+}
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: #a04040;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.5px;
+    line-height: ;
+}
+
+.delete-btn:hover {
+    color: #ff0000;
 }
