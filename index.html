@@ -11,13 +11,14 @@
     <body>
         <h1>Sticky Board</h1>
         <p>make a note, give it a due date, and drag it along!</p>
+        <div class="task-controls">
+            <input type="text" id="task-input" placeholder="Enter task title...">
+            <button onclick="createTask()">Add Task</button>
+        </div>
         <div id="container">
             <div class="board" ondragover="allowDrop(event)" ondrop="drop(event)">
                 <h3>Todo</h3>
                 <h5>NOT STARTED YET</h5>
-                <div id="drag-item" class="task" draggable="true" ondragstart="drag(event)">
-                    Test Task
-                </div>
             </div>
             <div class="board" ondragover="allowDrop(event)" ondrop="drop(event)">
                 <h3>Doing</h3>

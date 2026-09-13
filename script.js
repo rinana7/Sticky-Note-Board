@@ -1,13 +1,21 @@
-function drag(event) {
-    event.dataTransfer.setData("text", event.target.id);
-}
+let taskIdCounter = 1;
 
-function allowDrop(event) {
-    event.preventDefault();
-}
+function createTask() {
+    const input = document.getElementById("task-input");
+    const taskText = input.value.trim();
 
-function drop(event) {
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    event.currentTarget.appendChild(document.getElementById(data));
+    if (taskText === "") return;
+
+    const newTask = document.createElement("div");
+    newTask.className = "task";
+    newTask.id = "task-" + taskIdCounter++;
+    newTask.draggable = true;
+    newTask.innerText = taskText;
+
+    newTask.ondragstart = drag;
+
+    const todoBoard = document.querySelector(".board");
+    todoBoard.appendChild(newTask);
+
+    input.value = "";
 }

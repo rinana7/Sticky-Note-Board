@@ -37,14 +37,29 @@ p {
     border-radius: 30px;
 }
 
-.task {
-    padding: 15px;
-    background-color: #f3eab0;
-    text-align: center;
-    border-radius: 4px;
-    cursor: grab;
+.task-controls {
+    margin: 20px;
+    display: flex;
+    gap: 10px;
 }
 
-.task:active {
-    cursor: grabbing;
+.task-controls input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid rgb(195, 173, 153);
+    border-radius: 8px;
+    outline: none;
+}
+
+.task-controls button {
+    padding: 10px 20px;
+    background-color: rgb(195, 173, 153);
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.task-controls button:hover {
+    background-color: rgb(175, 153, 133);
 }
