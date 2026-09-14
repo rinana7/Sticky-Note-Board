@@ -81,4 +81,10 @@ function updateBoardStats() {
     const percentage = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
     document.getElementById("progress-fill").style.width = `${percentage}%`;
     document.getElementById("progress-percent").innerText = `${percentage}%`;
+
+    document.querySelectorAll('.board').forEach(board => {
+    const count = board.querySelectorAll('.task').length;
+    const emptyState = board.querySelector('.empty-state');
+    emptyState.style.display = count === 0 ? 'flex' : 'none';
+});
 }
