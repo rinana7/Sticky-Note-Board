@@ -21,10 +21,15 @@ function createTask() {
     const taskText = input.value.trim();
     const taskDueDate = dateInput.value;
 
+    const priorityInput = document.getElementById("task-priority");
+    const priority = priorityInput.value;
+
     if (taskText === "") return;
 
     const newTask = document.createElement("div");
-    newTask.className = "task";
+    newTask.className = `task priority-${priority}`;
+    const randomRotation = (Math.random() * 4 - 2).toFixed(1);
+    newTask.style.setProperty("--note-rotation", `${randomRotation}deg`);
     newTask.id = "task-" + taskIdCounter++;
     newTask.draggable = true;
     newTask.ondragstart = drag;

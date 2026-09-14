@@ -14,6 +14,11 @@
         <div class="task-controls">
             <input type="text" id="task-input" placeholder="Enter task title...">
             <input type="date" id="task-date">
+            <select id="task-priority">
+                <option value="low">Low Priority</option>
+                <option value="high">Medium Priority</option>
+                <option value="urgent">Urgent</option>
+            </select>
             <button onclick="createTask()">Add Task</button>
         </div>
         <div id="container">
