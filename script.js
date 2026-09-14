@@ -188,7 +188,9 @@ function updateBoardStats() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", updateBoardStats);
+document.addEventListener("DOMContentLoaded", () => {
+    loadBoardFromLocalStorage();
+});
 
 function allowPhotoDrop(event) {
     event.preventDefault();
@@ -215,7 +217,119 @@ function displayUploadedImage(file, position) {
         const imgElement = document.getElementById(`photo-img-${position}`);
         if (imgElement) {
             imgElement.src = e.target.result;
+            const storageKey = position === 'top' ? 'stickyPhotoTop' : 'stickyPhotoBottom';
+            localStorage.setItem(storageKey, e.target.result);
         }
     };
     reader.readAsDataURL(file);
 }
+
+
+//local sotrage
+
+function saveBoardToLocalStorage() {
+    const tasks = [];
+    
+    document.querySelectorAll('.task').forEach(task => {
+        const board = task.closest('.board');
+        const column = board ? board.dataset.column || "todo" : "todo";
+        const titleSpan = task.querySelector('.task-title');
+        
+        tasks.push({
+            id: task.id,
+            title: titleSpan ? titleSpan.innerText : "",
+            description: task.dataset.description || "",
+            dueDate: task.dataset.dueDate || "",
+            priority: task.dataset.priority || "medium",
+            rotation: task.style.getPropertyValue('--note-rotation') || "0deg",
+            column: column
+        });
+    });
+
+    localStorage.setItem("stickyBoardTasks", JSON.stringify(tasks));
+    localStorage.setItem("stickyBoardCounter", taskIdCounter.toString());
+}
+
+function loadBoardFromLocalStorage() {
+    const savedCounter = localStorage.getItem("stickyBoardCounter");
+    if (savedCounter) {
+        taskIdCounter = parseInt(savedCounter, 10);
+    }
+
+    const savedTasks = localStorage.getItem("stickyBoardTasks");
+    if (savedTasks) {
+        const tasks = JSON.parse(savedTasks);
+        tasks.forEach(taskData => renderTaskFromStorage(taskData));
+    }
+
+    const savedTopPhoto = localStorage.getItem("stickyPhotoTop");
+    if (savedTopPhoto) {
+        const topImg = document.getElementById("photo-img-top");
+        if (topImg) topImg.src = savedTopPhoto;
+    }
+
+    const savedBottomPhoto = localStorage.getItem("stickyPhotoBottom");
+    if (savedBottomPhoto) {
+        const bottomImg = document.getElementById("photo-img-bottom");
+        if (bottomImg) bottomImg.src = savedBottomPhoto;
+    }
+
+    updateBoardStats();
+}
+
+function renderTaskFromStorage(data) {
+    const newTask = document.createElement("div");
+    newTask.className = `task priority-${data.priority}`;
+    newTask.id = data.id;
+    newTask.draggable = true;
+    newTask.ondragstart = drag;
+
+    newTask.dataset.priority = data.priority;
+    newTask.dataset.dueDate = data.dueDate;
+    newTask.dataset.description = data.description;
+    newTask.style.setProperty("--note-rotation", data.rotation);
+
+    newTask.onclick = function(e) {
+        if (!e.target.classList.contains("delete-btn")) {
+            openTaskModal(newTask);
+        }
+    };
+
+    const contentDiv = document.createElement("div");
+    contentDiv.className = "task-content";
+
+    const textSpan = document.createElement("span");
+    textSpan.className = "task-title";
+    textSpan.innerText = data.title;
+    contentDiv.appendChild(textSpan);
+
+    if (data.dueDate) {
+        const dateSpan = document.createElement("span");
+        dateSpan.className = "task-date-badge";
+        dateSpan.innerText = "Due: " + data.dueDate;
+        contentDiv.appendChild(dateSpan);
+    }
+
+    newTask.appendChild(contentDiv);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-btn";
+    deleteBtn.innerText = "×";
+    deleteBtn.setAttribute("data-tooltip", "Delete task");
+    deleteBtn.onclick = function(event) {
+        event.stopPropagation();
+        newTask.classList.add("deleting");
+        setTimeout(() => {
+            newTask.remove();
+            updateBoardStats();
+            saveBoardToLocalStorage();
+        }, 200);
+    };
+    newTask.appendChild(deleteBtn);
+
+    const targetBoard = document.querySelector(`.board[data-column="${data.column}"]`) || document.querySelectorAll('.board')[0];
+    if (targetBoard) {
+        targetBoard.appendChild(newTask);
+    }
+}
+
