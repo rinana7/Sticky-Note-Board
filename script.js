@@ -78,32 +78,27 @@ function createTask() {
 }
 
 function updateBoardStats() {
-    const todoCount = document.querySelectorAll('.board[data-column="todo"] .task').length;
-    const doingCount = document.querySelectorAll('.board[data-column="doing"] .task').length;
-    const doneCount = document.querySelectorAll('.board[data-column="done"] .task').length;
+    const boards = document.querySelectorAll('.board');
+    if (boards.length < 3) return;
+
+    const todoCount = boards[0].querySelectorAll('.task').length;
+    const doingCount = boards[1].querySelectorAll('.task').length;
+    const doneCount = boards[2].querySelectorAll('.task').length;
     const totalCount = todoCount + doingCount + doneCount;
 
-    const countTodoElem = document.getElementById("count-todo");
-    const countDoingElem = document.getElementById("count-doing");
-    const countDoneElem = document.getElementById("count-done");
+    const fillWidth = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
 
-    if (countTodoElem) countTodoElem.innerText = `${todoCount} tasks`;
-    if (countDoingElem) countDoingElem.innerText = `${doingCount} tasks`;
-    if (countDoneElem) countDoneElem.innerText = `${doneCount} tasks`;
-
-    const percentage = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
-    
     const progressFill = document.getElementById("progress-fill");
-    const progressPercent = document.getElementById("progress-percent");
+    const progressStats = document.getElementById("progress-stats");
 
-    if (progressFill) progressFill.style.width = `${percentage}%`;
-    if (progressPercent) progressPercent.innerText = `${percentage}%`;
+    if (progressFill) progressFill.style.width = `${fillWidth}%`;
+    if (progressStats) progressStats.innerText = `${totalCount} tasks • ${doneCount} completed`;
 
-    document.querySelectorAll('.board').forEach(board => {
-        const count = board.querySelectorAll('.task').length;
+    boards.forEach(board => {
+        const taskCount = board.querySelectorAll('.task').length;
         const emptyState = board.querySelector('.empty-state');
         if (emptyState) {
-            emptyState.style.display = count === 0 ? 'flex' : 'none';
+            emptyState.style.display = taskCount === 0 ? 'block' : 'none';
         }
     });
 }
