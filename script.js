@@ -189,3 +189,33 @@ function updateBoardStats() {
 }
 
 document.addEventListener("DOMContentLoaded", updateBoardStats);
+
+function allowPhotoDrop(event) {
+    event.preventDefault();
+}
+
+function handlePhotoDrop(event, position) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files && files[0] && files[0].type.startsWith("image/")) {
+        displayUploadedImage(files[0], position);
+    }
+}
+
+function handlePhotoSelect(event, position) {
+    const files = event.target.files;
+    if (files && files[0]) {
+        displayUploadedImage(files[0], position);
+    }
+}
+
+function displayUploadedImage(file, position) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const imgElement = document.getElementById(`photo-img-${position}`);
+        if (imgElement) {
+            imgElement.src = e.target.result;
+        }
+    };
+    reader.readAsDataURL(file);
+}

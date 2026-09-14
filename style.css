@@ -327,3 +327,75 @@ h5 {
     background-color: #e2d2c0;
     color: #4a3f35;
 }
+
+/* Decorative Photo Card Containers */
+.photo-card {
+    position: absolute;
+    background-color: #ffffff;
+    padding: 10px 10px 28px 10px; /* Polaroid bottom border */
+    border-radius: 4px;
+    box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 5;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo-card:hover {
+    transform: scale(1.04) rotate(0deg) !important;
+    z-index: 20;
+}
+
+.top-right-card {
+    top: 20px;
+    right: 180px;
+    transform: rotate(8deg);
+    width: 140px;
+}
+
+.bottom-left-card {
+    bottom: 20px;
+    left: 40px;
+    transform: rotate(-6deg);
+    width: 160px;
+}
+
+.file-input {
+    display: none;
+}
+
+.photo-wrapper {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    background-color: #e2d2c0;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.photo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-hint {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    text-align: center;
+    padding: 4px;
+}
+
+.photo-wrapper:hover .upload-hint {
+    opacity: 1;
+}

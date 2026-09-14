@@ -29,6 +29,13 @@
             </select>
             <button onclick="createTask()">Add Task</button>
         </div>
+        <div id="photo-container-top" class="photo-card top-right-card" ondragover="allowPhotoDrop(event)" ondrop="handlePhotoDrop(event, 'top')">
+            <input type="file" id="upload-top" accept="image/*" class="file-input" onchange="handlePhotoSelect(event, 'top')">
+            <label for="upload-top" class="photo-wrapper">
+                <img id="photo-img-top" src="default-placeholder.jpg" alt="Custom photo">
+                <span class="upload-hint">Click or Drop Image</span>
+            </label>
+        </div>
         <div id="container">
             <div class="board" ondragover="allowDrop(event)" ondrop="drop(event)">
                 <h3>Todo</h3>
@@ -86,6 +93,13 @@
                     <button class="btn-primary" onclick="saveTaskDetails()">Save Changes</button>
                 </div>
             </div>
+        </div>
+        <div id="photo-container-bottom" class="photo-card bottom-left-card" ondragover="allowPhotoDrop(event)" ondrop="handlePhotoDrop(event, 'bottom')">
+            <input type="file" id="upload-bottom" accept="image/*" class="file-input" onchange="handlePhotoSelect(event, 'bottom')">
+            <label for="upload-bottom" class="photo-wrapper">
+                <img id="photo-img-bottom" src="default-placeholder.jpg" alt="Custom photo">
+                <span class="upload-hint">Click or Drop Image</span>
+            </label>
         </div>
         <script src="script.js" async defer></script>
     </body>
