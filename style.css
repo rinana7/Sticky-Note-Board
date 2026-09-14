@@ -1,5 +1,5 @@
 body {
-    background-color: #fbe8d0;
+    background-image: url(assets/tile-background.png);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
     padding: 30px;
