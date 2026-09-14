@@ -205,3 +205,124 @@ task-date-badge {
     opacity: 1;
     transform: translateX(50%) translateY(-2px);
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(61, 50, 40, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Modal Card Box */
+.modal-card {
+    background-color: #fffaf4;
+    border: 3px solid #c3ad99;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 480px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+    transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal-card {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #3d3228;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #7a6859;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-body label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #5c4d41;
+    margin-bottom: -6px;
+}
+
+.modal-body input,
+.modal-body textarea,
+.modal-body select {
+    padding: 10px;
+    border: 2px solid #c3ad99;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    background-color: #ffffff;
+    font-family: inherit;
+}
+
+.modal-row {
+    display: flex;
+    gap: 12px;
+}
+
+.modal-row > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-footer button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #8c7462;
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background-color: #e2d2c0;
+    color: #4a3f35;
+}

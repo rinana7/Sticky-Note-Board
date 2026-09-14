@@ -1,7 +1,9 @@
 let taskIdCounter = 1;
+let currentEditingTask = null;
 
 function drag(event) {
     event.dataTransfer.setData("text", event.target.id);
+    event.target.classList.add("dragging");
 }
 
 function allowDrop(event) {
@@ -10,14 +12,26 @@ function allowDrop(event) {
 
 function drop(event) {
     event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    var draggedItem = document.getElementById(data);
+    const data = event.dataTransfer.getData("text");
+    const draggedItem = document.getElementById(data);
     
     if (draggedItem) {
+        draggedItem.classList.remove("dragging");
         event.currentTarget.appendChild(draggedItem);
-        updateBoardStats(); // Update stats on drop
+        
+        // Bounce animation on drop
+        draggedItem.classList.add("dropped");
+        setTimeout(() => draggedItem.classList.remove("dropped"), 300);
+
+        updateBoardStats();
     }
 }
+
+document.addEventListener("dragend", function(event) {
+    if (event.target.classList.contains("task")) {
+        event.target.classList.remove("dragging");
+    }
+});
 
 function createTask() {
     const input = document.getElementById("task-input");
@@ -32,11 +46,22 @@ function createTask() {
 
     const newTask = document.createElement("div");
     newTask.className = `task priority-${priority}`;
-    const randomRotation = (Math.random() * 4 - 2).toFixed(1);
-    newTask.style.setProperty("--note-rotation", `${randomRotation}deg`);
     newTask.id = "task-" + taskIdCounter++;
     newTask.draggable = true;
     newTask.ondragstart = drag;
+
+    newTask.dataset.priority = priority;
+    newTask.dataset.dueDate = taskDueDate;
+    newTask.dataset.description = "";
+
+    const randomRotation = (Math.random() * 4 - 2).toFixed(1);
+    newTask.style.setProperty("--note-rotation", `${randomRotation}deg`);
+
+    newTask.onclick = function(e) {
+        if (!e.target.classList.contains("delete-btn")) {
+            openTaskModal(newTask);
+        }
+    };
 
     const contentDiv = document.createElement("div");
     contentDiv.className = "task-content";
@@ -61,20 +86,79 @@ function createTask() {
     deleteBtn.setAttribute("data-tooltip", "Delete task");
     deleteBtn.onclick = function(event) {
         event.stopPropagation();
-        newTask.remove();
-        updateBoardStats(); // Update stats on deletion
+        newTask.classList.add("deleting");
+        setTimeout(() => {
+            newTask.remove();
+            updateBoardStats();
+        }, 200);
     };
     newTask.appendChild(deleteBtn);
 
-    // Target the specific todo board or fallback to first board
-    const todoBoard = document.querySelector('.board[data-column="todo"]') || document.querySelector(".board");
+    const todoBoard = document.querySelector('.board[data-column="todo"]') || document.querySelectorAll('.board')[0];
     
     if (todoBoard) {
         todoBoard.appendChild(newTask);
         input.value = "";
         dateInput.value = "";
-        updateBoardStats(); // Update stats on task creation
+        if (priorityInput) priorityInput.value = "medium";
+        updateBoardStats();
     }
+}
+
+
+function openTaskModal(taskElement) {
+    currentEditingTask = taskElement;
+
+    const titleSpan = taskElement.querySelector(".task-title");
+
+    document.getElementById("modal-title").value = titleSpan ? titleSpan.innerText : "";
+    document.getElementById("modal-description").value = taskElement.dataset.description || "";
+    document.getElementById("modal-date").value = taskElement.dataset.dueDate || "";
+    document.getElementById("modal-priority").value = taskElement.dataset.priority || "medium";
+
+    document.getElementById("task-modal").classList.add("active");
+}
+
+function closeModal() {
+    const modal = document.getElementById("task-modal");
+    if (modal) modal.classList.remove("active");
+    currentEditingTask = null;
+}
+
+function saveTaskDetails() {
+    if (!currentEditingTask) return;
+
+    const newTitle = document.getElementById("modal-title").value.trim();
+    const newDescription = document.getElementById("modal-description").value.trim();
+    const newDate = document.getElementById("modal-date").value;
+    const newPriority = document.getElementById("modal-priority").value;
+
+    if (newTitle === "") return;
+
+    // Update datasets
+    currentEditingTask.dataset.description = newDescription;
+    currentEditingTask.dataset.dueDate = newDate;
+    currentEditingTask.dataset.priority = newPriority;
+
+    currentEditingTask.className = `task priority-${newPriority}`;
+
+    const contentDiv = currentEditingTask.querySelector(".task-content");
+    contentDiv.innerHTML = "";
+
+    const textSpan = document.createElement("span");
+    textSpan.className = "task-title";
+    textSpan.innerText = newTitle;
+    contentDiv.appendChild(textSpan);
+
+    if (newDate) {
+        const dateSpan = document.createElement("span");
+        dateSpan.className = "task-date-badge";
+        dateSpan.innerText = "Due: " + newDate;
+        contentDiv.appendChild(dateSpan);
+    }
+
+    closeModal();
+    updateBoardStats();
 }
 
 function updateBoardStats() {
@@ -86,6 +170,7 @@ function updateBoardStats() {
     const doneCount = boards[2].querySelectorAll('.task').length;
     const totalCount = todoCount + doingCount + doneCount;
 
+    // Calculate ratio fill width
     const fillWidth = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
 
     const progressFill = document.getElementById("progress-fill");
@@ -102,3 +187,5 @@ function updateBoardStats() {
         }
     });
 }
+
+document.addEventListener("DOMContentLoaded", updateBoardStats);
