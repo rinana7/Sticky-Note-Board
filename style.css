@@ -85,7 +85,8 @@ h5 {
     font-weight: 500;
 }
 
-task-date-badge {
+/* Fixed missing dot prefix */
+.task-date-badge {
     font-size: 0.75rem;
     font-family: 'Courier New', Courier, monospace;
     color: #7a6352;
