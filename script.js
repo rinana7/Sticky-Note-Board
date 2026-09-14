@@ -11,18 +11,22 @@ function allowDrop(event) {
 function drop(event) {
     event.preventDefault();
     var data = event.dataTransfer.getData("text");
-    event.currentTarget.appendChild(document.getElementById(data));
+    var draggedItem = document.getElementById(data);
+    
+    if (draggedItem) {
+        event.currentTarget.appendChild(draggedItem);
+        updateBoardStats(); // Update stats on drop
+    }
 }
 
 function createTask() {
     const input = document.getElementById("task-input");
     const dateInput = document.getElementById("task-date");
-    
+    const priorityInput = document.getElementById("task-priority");
+
     const taskText = input.value.trim();
     const taskDueDate = dateInput.value;
-
-    const priorityInput = document.getElementById("task-priority");
-    const priority = priorityInput.value;
+    const priority = priorityInput ? priorityInput.value : "medium";
 
     if (taskText === "") return;
 
@@ -58,14 +62,19 @@ function createTask() {
     deleteBtn.onclick = function(event) {
         event.stopPropagation();
         newTask.remove();
+        updateBoardStats(); // Update stats on deletion
     };
     newTask.appendChild(deleteBtn);
 
-    const todoBoard = document.querySelector(".board");
-    todoBoard.appendChild(newTask);
-
-    input.value = "";
-    dateInput.value = "";
+    // Target the specific todo board or fallback to first board
+    const todoBoard = document.querySelector('.board[data-column="todo"]') || document.querySelector(".board");
+    
+    if (todoBoard) {
+        todoBoard.appendChild(newTask);
+        input.value = "";
+        dateInput.value = "";
+        updateBoardStats(); // Update stats on task creation
+    }
 }
 
 function updateBoardStats() {
@@ -74,17 +83,27 @@ function updateBoardStats() {
     const doneCount = document.querySelectorAll('.board[data-column="done"] .task').length;
     const totalCount = todoCount + doingCount + doneCount;
 
-    document.getElementById("count-todo").innerText = `${todoCount} tasks`;
-    document.getElementById("count-doing").innerText = `${doingCount} tasks`;
-    document.getElementById("count-done").innerText = `${doneCount} tasks`;
+    const countTodoElem = document.getElementById("count-todo");
+    const countDoingElem = document.getElementById("count-doing");
+    const countDoneElem = document.getElementById("count-done");
+
+    if (countTodoElem) countTodoElem.innerText = `${todoCount} tasks`;
+    if (countDoingElem) countDoingElem.innerText = `${doingCount} tasks`;
+    if (countDoneElem) countDoneElem.innerText = `${doneCount} tasks`;
 
     const percentage = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
-    document.getElementById("progress-fill").style.width = `${percentage}%`;
-    document.getElementById("progress-percent").innerText = `${percentage}%`;
+    
+    const progressFill = document.getElementById("progress-fill");
+    const progressPercent = document.getElementById("progress-percent");
+
+    if (progressFill) progressFill.style.width = `${percentage}%`;
+    if (progressPercent) progressPercent.innerText = `${percentage}%`;
 
     document.querySelectorAll('.board').forEach(board => {
-    const count = board.querySelectorAll('.task').length;
-    const emptyState = board.querySelector('.empty-state');
-    emptyState.style.display = count === 0 ? 'flex' : 'none';
-});
+        const count = board.querySelectorAll('.task').length;
+        const emptyState = board.querySelector('.empty-state');
+        if (emptyState) {
+            emptyState.style.display = count === 0 ? 'flex' : 'none';
+        }
+    });
 }
