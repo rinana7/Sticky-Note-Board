@@ -122,22 +122,39 @@ task-date-badge {
 }
 
 .task {
-    padding: 12px 16px;
-    margin-bottom: 12px;
-    background-color: #f3eab0;
-    border-radius: 8px;
+    position: relative;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    border-radius: 2px 2px 2px 14px;
     cursor: grab;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: transform 0.15s, box-shadow 0.15s;
+    align-items: flex-start;
+    transform: rotate(var(--note-rotation, 0deg));
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     word-break: break-word;
 }
 
+.task::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 12px 12px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0,0,0,0.1) transparent;
+}
+
+.task.priority-low { background-color: #d8f0f8; }
+.task.priority-medium { background-color: #fef3c7; }
+.task.priority-high { background-color: #fce7f3; }
+.task.priority-urgent { background-color: #fecaca; }
+
 .task:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.03) rotate(0deg);
+    box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.12);
+    z-index: 10;
 }
 
 .task:active {
