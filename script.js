@@ -67,3 +67,18 @@ function createTask() {
     input.value = "";
     dateInput.value = "";
 }
+
+function updateBoardStats() {
+    const todoCount = document.querySelectorAll('.board[data-column="todo"] .task').length;
+    const doingCount = document.querySelectorAll('.board[data-column="doing"] .task').length;
+    const doneCount = document.querySelectorAll('.board[data-column="done"] .task').length;
+    const totalCount = todoCount + doingCount + doneCount;
+
+    document.getElementById("count-todo").innerText = `${todoCount} tasks`;
+    document.getElementById("count-doing").innerText = `${doingCount} tasks`;
+    document.getElementById("count-done").innerText = `${doneCount} tasks`;
+
+    const percentage = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+    document.getElementById("progress-fill").style.width = `${percentage}%`;
+    document.getElementById("progress-percent").innerText = `${percentage}%`;
+}

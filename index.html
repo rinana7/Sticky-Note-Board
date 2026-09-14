@@ -11,6 +11,15 @@
     <body>
         <h1>Sticky Board</h1>
         <p>make a note, give it a due date, and drag it along!</p>
+        <div class="progress-bar-container">
+            <div class="progress-text">
+                <span id="progress-stats">0 tasks • 0 completed</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-track">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+        </div>
         <div class="task-controls">
             <input type="text" id="task-input" placeholder="Enter task title...">
             <input type="date" id="task-date">
